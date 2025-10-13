@@ -681,8 +681,5 @@ class PhocacartRenderStyle
 
     public final function __clone() {
         throw new Exception('Function Error: Cannot clone instance of Singleton pattern', 500);
-        return false;
     }
 }
-
-?>
