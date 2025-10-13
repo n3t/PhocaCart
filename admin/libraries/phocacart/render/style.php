@@ -200,7 +200,7 @@ class PhocacartRenderStyle
         $s['c']['control-label']                 = 'control-label';
         $s['c']['control-group']                 = 'control-group';
         $s['c']['control-group.form_inline']     = 'control-group form-inline';
-        $s['c']['form-group']                    = 'form-group';
+        $s['c']['form-group']                    = 'input-group';
         $s['c']['form-control']                  = 'form-control';
         $s['c']['form-inline']                   = 'form-inline '.$formDesignTypeSuffix;
         $s['c']['form-horizontal']               = 'form-horizontal '.$formDesignTypeSuffix;
