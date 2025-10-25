@@ -10,6 +10,8 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Phoca\PhocaCart\Dispatcher\Dispatcher;
 use Phoca\PhocaCart\Event;
 
@@ -32,7 +34,7 @@ $eventUserAddressAfterAccountView = array_filter($eventUserAddressAfterAccountVi
   </div>
 </div>
 
-<form action="<?= $this->data('linkcheckout') ?>" method="post" class="<?= $this->classMap('form-horizontal.form-validate') ?>" role="form" id="phcheckoutAddress">
+<form action="<?= Route::_('index.php') ?>" method="post" class="<?= $this->classMap('form-horizontal.form-validate') ?>" role="form" id="phcheckoutAddress">
   <div id="ph-request-message" style="display:none"></div>
 
   <div class="<?= $this->classMap('row') ?> ph-account-box-action">
@@ -44,16 +46,16 @@ $eventUserAddressAfterAccountView = array_filter($eventUserAddressAfterAccountVi
 
     <div class="<?= $this->classMap('col.xs12.sm6.md6') ?> ph-account-billing-row" id="phBillingAddress">
       <div class="ph-box-header"><?= Text::_('COM_PHOCACART_BILLING_ADDRESS') ?></div>
-      <?= $this->t['dataaddressform']['b'] ?>
+      <?= $this->data('dataaddressform')['b'] ?>
     </div>
 
     <div class="<?= $this->classMap('col.xs12.sm6.md6') ?> ph-account-shipping-row" id="phShippingAddress">
       <div class="ph-box-header"><?= Text::_('COM_PHOCACART_SHIPPING_ADDRESS') ?></div>
-      <?= $this->t['dataaddressform']['s'] ?>
+      <?= $this->data('dataaddressform')['s'] ?>
     </div>
 
     <div class="<?= $this->classMap('col.xs12.sm12.md12 pull-right') ?> ph-right ph-account-check-box">
-      <?php if ($this->data('dataaddressform')['s'] != '' && $this->data('delivery_billing_same_enabled') != -1) { ?>
+      <?php if ($this->data('dataaddressform')['s'] != '' && $this->param('delivery_billing_same_enabled', 0) != -1) { ?>
         <div class="<?= $this->classMap('controls') ?>">
           <label>
             <input class="<?= $this->classMap('inputbox.checkbox') ?>" type="checkbox" id="phCheckoutBillingSameAsShipping" name="phcheckoutbsas" <?= $this->data('dataaddressform')['bsch'] ?> />
@@ -79,6 +81,6 @@ $eventUserAddressAfterAccountView = array_filter($eventUserAddressAfterAccountVi
   <input type="hidden" name="option" value="com_phocacart" />
   <input type="hidden" name="task" value="checkout.saveaddress" />
   <input type="hidden" name="typeview" value="account" />
-  <input type="hidden" name="return" value="<?= $this->data('actionbase64') ?>" />
+  <input type="hidden" name="return" value="<?= base64_encode(Uri::getInstance()->toString()) ?>" />
   <?= HTMLHelper::_('form.token') ?>
 </form>

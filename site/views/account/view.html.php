@@ -9,7 +9,6 @@
 defined('_JEXEC') or die();
 
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
@@ -20,8 +19,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Users\Administrator\Helper\Mfa;
 use Phoca\PhocaCart\MVC\View\SiteViewTrait;
-
-jimport( 'joomla.application.component.view');
 
 class PhocaCartViewAccount extends HtmlView
 {
@@ -34,7 +31,7 @@ class PhocaCartViewAccount extends HtmlView
     protected $u;
     protected $twofactorform = [];
     protected $twofactormethods = [];
-    protected $otpConfig;
+    protected $otpConfig = null;
 
     // Phoca Cart address form
     protected $fields2;
@@ -53,9 +50,9 @@ class PhocaCartViewAccount extends HtmlView
     function display($tpl = null)
     {
         $app = Factory::getApplication();
-        $uri = Uri::getInstance();
 
-        // TODO what is really needed?
+        $uri = Uri::getInstance();
+        // backward compatibility
         $this->data('action', $uri->toString());
         $this->data('actionbase64', base64_encode($this->data('action')));
         $this->data('linkaccount', Route::_(PhocacartRoute::getAccountRoute()));
@@ -79,6 +76,8 @@ class PhocaCartViewAccount extends HtmlView
             $this->form2   = $modelCheckout->getForm();
 
             $this->data('dataaddressform', PhocacartUser::getAddressDataForm($this->form2, $this->fields2['array'], $this->getUser()));
+
+            // Backward compatibility
             $this->data('datauser', $this->data2);
 
             $this->loadJoomlaUser();
@@ -106,8 +105,7 @@ class PhocaCartViewAccount extends HtmlView
 
     private function loadJoomlaUser(): void
     {
-        // TODO check values in config
-        if ($this->param('display_edit_profile', 1) != 1) {
+        if (!$this->param('display_edit_profile', 1)) {
             return;
         }
 
@@ -132,9 +130,6 @@ class PhocaCartViewAccount extends HtmlView
 
         $this->data->tags = new TagsHelper;
         $this->data->tags->getItemTags('com_users.user.', $this->data->id);
-
-        // Backward compatibility
-        $this->otpConfig = $modelUsers->getOtpConfig();
     }
 
     protected function _prepareDocument()
