@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 /** @var PhocaCartViewAccount $this */
 
-if ((int)$this->data('display_reward_points_total_info') > 0) {
+if ((int)$this->param('display_reward_points_total_info', 0) > 0) {
 ?>
 <div class="<?= $this->classMap('row') ?> ph-account-box-row">
   <div class="<?= $this->classMap('col.xs12.sm12.md12') ?> ph-account-box-header" id="phaccountrewardpoints">

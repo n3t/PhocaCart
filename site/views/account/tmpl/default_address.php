@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 $eventInsideAddressAfterHeader = Dispatcher::dispatch(new Event\View\Account\InsideAddressAfterHeader('com_phocacart.account', $this->data));
 
 $pluginLayout = PluginHelper::importPlugin('pct');
-$eventUserAddressAfterAccountView = Dispatcher::dispatch(new Event\View\Account\InsideAddressAfterHeader('com_phocacart.account', $this->data));
+$eventUserAddressAfterAccountView = Dispatcher::dispatch(new Event\Tax\UserAddressAfterAccountView('com_phocacart.account', $this->data2));
 $eventUserAddressAfterAccountView = array_filter($eventUserAddressAfterAccountView, function ($value) {
   return $value && ($value['content'] ?? '');
 });
