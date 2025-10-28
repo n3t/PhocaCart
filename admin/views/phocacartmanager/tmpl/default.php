@@ -13,7 +13,6 @@ use Joomla\Filesystem\Path;
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('dropdown.init');
-HTMLHelper::_('formbehavior.chosen', 'select');
 
 $r 			=  new PhocacartRenderAdminview();
 

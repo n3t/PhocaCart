@@ -15,8 +15,6 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('dropdown.init');
-HTMLHelper::_('formbehavior.chosen', 'select');
-
 
 $link		= Route::_( 'index.php?option='.$this->t['o'].'&view=phocacarteditproductpointgroup&tmpl=component&id='.(int)$this->id);
 

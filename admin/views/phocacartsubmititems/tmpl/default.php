@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('dropdown.init');
-//HTMLHelper::_('formbehavior.chosen', 'select');
+
 $r               = $this->r;
 $user            = Factory::getUser();
 $userId          = $user->get('id');

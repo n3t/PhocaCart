@@ -16,7 +16,6 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('bootstrap.tooltip');
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('dropdown.init');
-HTMLHelper::_('formbehavior.chosen', 'select');
 */
 
 echo '<div id="phEditStockAdvancedBox" class="ph-edit-stock-advanced-box">';
