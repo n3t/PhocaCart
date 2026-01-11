@@ -21,7 +21,7 @@ use Joomla\CMS\Layout\LayoutHelper;
         <?= $this->loadTemplate('rewards') ?>
         <?= $this->loadTemplate('address') ?>
 
-        <?php if ($this->param('display_edit_profile', 1)) { ?>
+        <?php if ($this->param('display_edit_profile', 1) == 1) { ?>
             <?= $this->loadTemplate('profile') ?>
         <?php } ?>
     <?php } else { ?>
