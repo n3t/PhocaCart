@@ -16,6 +16,7 @@ use Joomla\CMS\Router\Route;
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
+JHtml::_('formbehavior.chosen', 'select');
 jimport( 'joomla.filesystem.folder' );
 jimport( 'joomla.filesystem.file' );
 */
