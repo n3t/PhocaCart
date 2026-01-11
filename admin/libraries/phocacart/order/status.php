@@ -242,7 +242,8 @@ class PhocacartOrderStatus
         $recipient       = ''; // Customer/Buyer
         $recipientOthers = ''; // others
         $bcc             = '';
-        $notificationResult = -1;
+        //$notificationResult = -1;
+        $notificationResult = 0;
 
         if ($notifyUser) {
             if (self::canSendEmail($orderToken, $order)) {
@@ -262,6 +263,9 @@ class PhocacartOrderStatus
         }
 
         if (!JoomlaMailHelper::isEmailAddress($recipient) && !JoomlaMailHelper::isEmailAddress($recipientOthers)) {
+            //PhocacartLog::add(2, 'Sending email - ERROR', $order->id, Text::_('COM_PHOCACART_ERROR'). ' (Incorrect recipient email)');
+            //return -1;
+            PhocacartLog::add(1, 'Sending email - Info', $order->id, Text::_('COM_PHOCACART_INFO'). ' (No recipient, no recipient others, no email sent)');
             return 0;
         }
 
@@ -345,6 +349,10 @@ class PhocacartOrderStatus
                 $mailer->addAttachment($attachmentName, $attachmentContent);
             }
 
+
+            if (!$status['email_attachments']) {
+                $status['email_attachments'] = '';
+            }
             MailHelper::addAttachments($mailer, json_decode($status['email_attachments'], true));
 
             $mailer->addRecipient($recipient);
@@ -354,13 +362,14 @@ class PhocacartOrderStatus
                     if ($app->isClient('administrator')) {
                         $app->enqueueMessage(Text::_('COM_PHOCACART_EMAIL_CUSTOMER_SENT'));
                     }
-
                     $notificationResult = 1;
                 } else {
-                    $notificationResult = 0;
+                    PhocacartLog::add(2, 'Sending email - ERROR', $order->id, Text::_('COM_PHOCACART_ERROR'). ' (Error when sending email using mailer)');
+                    $notificationResult = -1;
                 }
             } catch (\Exception $exception) {
-                $notificationResult = 0;
+                $notificationResult = -1;
+                PhocacartLog::add(2, 'Sending email - ERROR', $order->id, Text::_('COM_PHOCACART_ERROR'). ' ('.Text::_($exception->errorMessage()).')');
                 Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
             }
         }
@@ -649,6 +658,7 @@ class PhocacartOrderStatus
         $stockMovements = '99', $changeUserGroup = '99', $changePointsNeeded = '99', $changePointsReceived = '99', $emailSendFormat = '99'
     )
     {
+
         // ORDER INFO
         $orderView = new PhocacartOrderView();
         $order     = $orderView->getItemCommon($orderId);
@@ -674,7 +684,7 @@ class PhocacartOrderStatus
             throw new PhocaCartException('Invalid status ID');
         }
 
-        if ($notifyUser == 99) {
+        if ($notifyUser === 99) {
             if ($status['email_customer'] == 2) {
                 $notifyUser = !PhocacartPos::isPos();
             } else {
@@ -684,17 +694,17 @@ class PhocacartOrderStatus
             $notifyUser = !!$notifyUser;
         }
 
-        if ($notifyOthers == 99) {
+        if ($notifyOthers === 99) {
             $notifyOthers = !!$status['email_others'];
         } else {
             $notifyOthers = !!$notifyOthers;
         }
 
-        if ($emailSend == 99) {
+        if ($emailSend === 99) {
             $emailSend = $status['email_send'];
         }
 
-        if ($emailSendFormat == 99) {
+        if ($emailSendFormat === 99) {
             $emailSendFormat = $status['email_send_format'];
         }
 
@@ -738,7 +748,6 @@ class PhocacartOrderStatus
         self::updateDownload($order->id, $status['download']);
         $notificationResult = self::sendOrderEmail($order, $orderView, $status, $addresses, $orderToken, $notifyUser, $notifyOthers, (int)$emailSend, !!$emailSendFormat);
         self::sendGiftEmail($order, $orderView, $status, $addresses, $orderToken);
-
         return $notificationResult;
     }
 
