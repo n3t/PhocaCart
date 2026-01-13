@@ -89,7 +89,8 @@ abstract class MailHelper
 
         $mailData['name_others']  = '';
         $mailData['sitename']     = Factory::getApplication()->getConfig()->get('sitename');
-        $mailData['status_title'] = Text::_($status['title']);
+        //$mailData['status_title'] = Text::_($status['title']);
+        $mailData['status_title'] = Text::_($status['title_not_translated']);
         $mailData['text_nr'] = Text::_('COM_PHOCACART_ORDER_NR');
         $mailData['text_changed_to'] = Text::_('COM_PHOCACART_ORDER_STATUS_CHANGED_TO');
 

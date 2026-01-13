@@ -1295,7 +1295,7 @@ CREATE TABLE IF NOT EXISTS `#__phocacart_order_products` (
   `volume` DECIMAL( 10, 4 ) NOT NULL DEFAULT  '0',
   `points_received` int(11) NOT NULL DEFAULT '0',
   `points_needed` int(11) NOT NULL DEFAULT '0',
-  `default_price` DECIMAL( 10, 4 ) NOT NULL DEFAULT '0',
+  `default_price` DECIMAL( 15, 4 ) NOT NULL DEFAULT '0',
   `default_tax_rate` DECIMAL( 10, 4 ) NOT NULL DEFAULT '0',
   `default_tax_id` int(11) NOT NULL DEFAULT '0',
   `default_tax_id_c` int(11) NOT NULL DEFAULT '0',

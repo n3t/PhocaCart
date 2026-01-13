@@ -146,3 +146,7 @@ INSERT IGNORE INTO `#__mail_templates` (`template_id`, `extension`, `language`, 
     ('com_phocacart.subscription.canceled', 'com_phocacart', '', 'COM_PHOCACART_MAIL_SUBSCRIPTION_CANCELED_SUBJECT', 'COM_PHOCACART_MAIL_SUBSCRIPTION_CANCELED_BODY', 'COM_PHOCACART_MAIL_SUBSCRIPTION_CANCELED_HTMLBODY', '', '{"tags":["user_name","user_username","user_email","product_name","product_title","product_sku","product_link","start_date","end_date","cancellation_date","cancellation_reason","subscription_status","site_name","site_link","site_url","account_url","resubscribe_url","html.document","text.document"]}');
 INSERT IGNORE INTO `#__mail_templates` (`template_id`, `extension`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES
     ('com_phocacart.subscription.status_changed', 'com_phocacart', '', 'COM_PHOCACART_MAIL_SUBSCRIPTION_STATUS_CHANGED_SUBJECT', 'COM_PHOCACART_MAIL_SUBSCRIPTION_STATUS_CHANGED_BODY', 'COM_PHOCACART_MAIL_SUBSCRIPTION_STATUS_CHANGED_HTMLBODY', '', '{"tags":["user_name","user_username","user_email","product_name","product_title","product_sku","product_link","start_date","end_date","subscription_status","renewal_count","site_name","site_link","site_url","account_url","html.document","text.document"]}');
+
+
+
+ALTER TABLE `#__phocacart_order_products` MODIFY `default_price` DECIMAL(15, 4) NOT NULL DEFAULT '0';
