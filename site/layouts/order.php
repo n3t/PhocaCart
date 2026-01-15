@@ -55,7 +55,7 @@ $store_info_pos							= $d['params']->get( 'store_info_pos', '' );
 $store_info_footer_pos					= $d['params']->get( 'store_info_footer_pos', '' );
 
 // Used in Phoca PDF Phocacart plugin because of converting the TCPDF QR code into html
-//$pdf_invoice_qr_code					= $d['params']->get( 'pdf_invoice_qr_code', '' );
+//$pdf_invoice_qr_code					= PhocacartText::removeVariable($d['params']->get( 'pdf_invoice_qr_code', '' ), '{invoiceqr}');
 $pdf_invoice_signature_image			= $d['params']->get( 'pdf_invoice_signature_image', '' );
 $pdf_invoice_qr_information				= $d['params']->get( 'pdf_invoice_qr_information', '' );
 $invoice_global_top_desc				= $d['params']->get( 'invoice_global_top_desc', 0 );// Article ID
@@ -1228,9 +1228,9 @@ if ($d['type'] == 2) {
 	} else if ((int)$invoice_global_bottom_desc > 0) {
 		$invoiceBottomDescArticle = PhocacartRenderFront::renderArticle((int)$invoice_global_bottom_desc, $d['format']);
 	}
-
 	if ($invoiceBottomDescArticle != '') {
 		$o[] = '<div '.$hrSmall.'>&nbsp;</div>';
+
 		$invoiceBottomDescArticle 	= PhocacartPdf::skipStartAndLastTag($invoiceBottomDescArticle, 'p');
 
         if ($d['qrcode'] != '' && $d['format'] == 'pdf') {
