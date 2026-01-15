@@ -97,7 +97,7 @@ class PhocaCartViewItem extends HtmlView
 		$this->t['display_webp_images']			= $this->p->get( 'display_webp_images', 0 );
 		$this->t['item_display_labels']			= $this->p->get( 'item_display_labels', 2 );
 		$this->t['item_display_tags']			= $this->p->get( 'item_display_tags', 1 );
-
+		$this->t['tag_separator']		    = $this->p->get( 'tag_separator', ' ' );
 
 		// Rights or catalogue options --------------------------------
 		$rights								= new PhocacartAccessRights();

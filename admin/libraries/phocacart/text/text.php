@@ -369,6 +369,11 @@ class PhocacartText {
         $pdf_invoice_qr_code_translated = PhocacartText::completeText($pdf_invoice_qr_code, $r, 1);
         $r['invoiceqr']                 = PhocacartUtils::getQrImage($pdf_invoice_qr_code_translated);
 
+        // Specific Case QR Code inside paymentdescriptioninfo or shippingdescriptioninfo
+        //$r['paymentdescriptioninfo'] 		= str_replace('{invoiceqr}', $r['invoiceqr'],  $r['paymentdescriptioninfo']);
+        //$r['shippingdescriptioninfo'] 		= str_replace('{invoiceqr}', $r['invoiceqr'],  $r['shippingdescriptioninfo']);
+
+
 		return $r;
 	}
 

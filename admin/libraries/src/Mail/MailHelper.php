@@ -570,6 +570,7 @@ abstract class MailHelper
             $mailData[$format . '.' . $name] = $block;
         }
 
+
         if (isset($mailData['attachments'])) {
             $mailData['attachments'] = array_merge($mailData['attachments'], $data['attachments']);
         } else {
@@ -582,6 +583,7 @@ abstract class MailHelper
     public static function renderOrderBody(object $order, string $format, EmailDocumentType $documentType, array &$mailData): string
     {
         $orderView = new \PhocacartOrderView();
+
 
         $displayData = [];
         $displayData['params'] = \PhocacartUtils::getComponentParameters();
@@ -604,6 +606,28 @@ abstract class MailHelper
         $displayData['qrcode'] = \PhocacartText::completeText($displayData['params']->get( 'pdf_invoice_qr_code', '' ), $displayData['preparereplace'], 1);
 
         $mailData['HAS_DOWNLOADS'] = false;
+
+        // QR CODE IMAGE IN EMAIL CODE NEEDS TO BE SENT AS ATTACHMENT TO BE DISPLAYED
+        // In this place we can add QR code image as attachment to the HTML mail but this will be added always
+        // We want to add it only in case the email includes QR code (Invoice QR Code) somewhere
+        // This we can detect in administrator/components/com_phocacart/libraries/src/Mail/MailTemplate.php
+        // in method: replaceTags, because this function is called by $mailer->send() we have last chance to add the attachment to the email there
+        // so it will be added there
+        /* $mailData['attachments']['qrcode'] = [
+        'content' => \PhocacartUtils::getQrImage($displayData['qrcode'], 3),
+        'mimetype' => 'image/png',
+        'filename' => 'qrcode.png'
+        ];*/
+
+        // And we need to add data there:
+        $mailData['qrcode'] = $displayData['qrcode'];// to add it to replaceTags - to create the image
+        $mailData['invoiceqr'] = '<div class="ph__qrcode"><img src="cid:qrcode" alt="QR" style="max-width: 200px; max-height: 200px" /></div>';// To convert QR code in mail content
+        $displayData['preparereplace']['invoiceqr'] = '<div class="ph__qrcode"><img src="cid:qrcode" alt="QR" style="max-width: 200px; max-height: 200px" /></div>';// To convert QR code in content inside e.g. {html.content}
+
+        $mailData['paymentdescriptioninfo'] = str_replace('{invoiceqr}', '<div class="ph__qrcode"><img src="cid:qrcode" alt="QR" style="max-width: 200px; max-height: 200px" /></div>', $mailData['paymentdescriptioninfo']);
+        $displayData['preparereplace']['paymentdescriptioninfo'] = str_replace('{invoiceqr}', '<div class="ph__qrcode"><img src="cid:qrcode" alt="QR" style="max-width: 200px; max-height: 200px" /></div>', $displayData['preparereplace']['paymentdescriptioninfo']);
+        $mailData['shippingdescriptioninfo'] = str_replace('{invoiceqr}', '<div class="ph__qrcode"><img src="cid:qrcode" alt="QR" style="max-width: 200px; max-height: 200px" /></div>', $mailData['shippingdescriptioninfo']);
+        $displayData['preparereplace']['shippingdescriptioninfo'] = str_replace('{invoiceqr}', '<div class="ph__qrcode"><img src="cid:qrcode" alt="QR" style="max-width: 200px; max-height: 200px" /></div>', $displayData['preparereplace']['shippingdescriptioninfo']);
 
         return self::renderBody('order', $format, $displayData, $mailData);
     }

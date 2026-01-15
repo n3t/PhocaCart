@@ -514,7 +514,7 @@ if (!empty($this->items) && $this->t['pluginlayout']) {
 
 		// TAGS
 		$dL['tags'] =  '';
-		$tagsOutput = PhocacartTag::getTagsRendered((int)$v->id, $this->t['category_display_tags'], ', ');
+		$tagsOutput = PhocacartTag::getTagsRendered((int)$v->id, $this->t['category_display_tags'], $this->t['tag_separator']);
 		if ($tagsOutput != '') {
 			$dL['tags'] .= $tagsOutput;
 		}

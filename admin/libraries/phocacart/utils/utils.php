@@ -779,7 +779,7 @@ class PhocacartUtils
 		return $pdfV['pdf'];
 	}
 
-	public static function getQrImage($qrCode) {
+	public static function getQrImage($qrCode, $format = 1) {
 
 		if (PhocacartUtils::isPhocaPDFBarcodeAvailable()) {
 
@@ -805,9 +805,23 @@ class PhocacartUtils
             return '<img src="'.$fileRel.'">';
             */
 
+            if ($format == 2) {
+                // IMAGE IN BASE64
+                return '<img src="data:image/png;base64,'. base64_encode($barCodeObj->getBarcodePngData(2,2)).'">';
+            } else if ($format == 3) {
+                // RAW CONTENT OF IMAGE
+                return $barCodeObj->getBarcodePngData(2,2);
+            } else if ($format == 4) {
+                // BASE64 RAW CONTENT OF IMAGE
+                return base64_encode($barCodeObj->getBarcodePngData(2,2));
+            } else {
+                // SVG
+                return '<span class="ph-qr-code">' . $barCodeObj->getBarcodeSVGcode() . '</span>';
+            }
+
 			// Be aware some clients do not support base64 image or SVG image so let the image be in PDF document and not in email body
 			//return '<img src="data:image/png;base64,'. base64_encode($barCodeObj->getBarcodePngData(2,2)).'">';
-			return '<span class="ph-qr-code">' . $barCodeObj->getBarcodeSVGcode() . '</span>';
+			//return '<span class="ph-qr-code">' . $barCodeObj->getBarcodeSVGcode() . '</span>';
 		}
 
 		return '';

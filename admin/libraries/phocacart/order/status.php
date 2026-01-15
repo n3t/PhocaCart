@@ -348,6 +348,7 @@ class PhocacartOrderStatus
         if (JoomlaMailHelper::isEmailAddress($recipient)) {
             $mailer = new MailTemplate('com_phocacart.order_status.' . $status['id'], $order->user_lang);
             $mailData['document'] = $document;
+
             $mailer->addTemplateData($mailData);
 
             if ($attachmentContent) {
@@ -359,6 +360,7 @@ class PhocacartOrderStatus
                 $status['email_attachments'] = '';
             }
             MailHelper::addAttachments($mailer, json_decode($status['email_attachments'], true));
+
 
             $mailer->addRecipient($recipient);
             try {
