@@ -21,7 +21,7 @@ class PhocacartOrderRender
 	public function render($id, $type = 1, $format = 'html', $token = '', $pos = 0) {
 
 		$paramsC 					= PhocacartUtils::getComponentParameters();
-		$pdf_invoice_qr_code		= $paramsC->get( 'pdf_invoice_qr_code', '' );
+		$pdf_invoice_qr_code		= PhocacartText::removeQrCodeVariables($paramsC->get( 'pdf_invoice_qr_code', '' ));
 
 		// If frontend user orders: user login needed or token
 		// If frontend POS: vendor login needed

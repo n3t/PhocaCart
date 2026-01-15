@@ -107,7 +107,7 @@ class PhocacartText {
 		$totalBrutto	= $order->getItemTotal($orderId, 0, 'brutto');
 
 		$download_guest_access = $pC->get('download_guest_access', 0);
-        $pdf_invoice_qr_code = $pC->get('pdf_invoice_qr_code', '');
+        $pdf_invoice_qr_code = PhocacartText::removeQrCodeVariables($pC->get('pdf_invoice_qr_code', ''), '{invoiceqr}');
 
         $email_downloadlink_description = isset($status['email_downloadlink_description']) && $status['email_downloadlink_description'] != '' ? $status['email_downloadlink_description'] : '';
 
@@ -366,11 +366,32 @@ class PhocacartText {
         }
 
         // Specific Case - QR Code inside {invoiceqr} parameter
+
+
+        $pdf_invoice_qr_code            = self::removeQrCodeVariables($pdf_invoice_qr_code,);
         $pdf_invoice_qr_code_translated = PhocacartText::completeText($pdf_invoice_qr_code, $r, 1);
+        $pdf_invoice_qr_code_translated = self::removeQrCodeVariables($pdf_invoice_qr_code_translated);
         $r['invoiceqr']                 = PhocacartUtils::getQrImage($pdf_invoice_qr_code_translated);
+
+        // Specific Case QR Code inside paymentdescriptioninfo or shippingdescriptioninfo
+        //$r['paymentdescriptioninfo'] 		= str_replace('{invoiceqr}', $r['invoiceqr'],  $r['paymentdescriptioninfo']);
+        //$r['shippingdescriptioninfo'] 		= str_replace('{invoiceqr}', $r['invoiceqr'],  $r['shippingdescriptioninfo']);
+
 
 		return $r;
 	}
+
+    public static function removeVariable($content, $variable){
+
+        return str_replace($variable, '', $content);
+
+    }
+
+    public static function removeQrCodeVariables($content) {
+
+        $removeVariables = ['{invoiceqr}', '{paymentdescriptioninfo}', '{shippingdescriptioninfo}', '{trackingdescription}', '{openingtimesinfo}'];
+        return str_replace($removeVariables, '', $content);
+    }
 
     /**
      * @param $string

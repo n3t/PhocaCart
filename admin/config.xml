@@ -874,6 +874,7 @@
         <option value="ph-form-placeholder">COM_PHOCACART_PLACEHOLDER</option>
       </field>
 
+      <field name="tag_separator" default=" " size="10" type="text"  filter="safehtml" label="COM_PHOCACART_FIELD_TAG_SEPARATOR_LABEL" description="COM_PHOCACART_FIELD_TAG_SEPARATOR_DESC"/>
 
       <field name="phocahead8" type="phocahead" default="COM_PHOCACART_AJAX_OPTIONS_LABEL" label="" description=""/>
 
